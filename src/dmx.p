@@ -39,7 +39,7 @@ START:
    MOV r8, 7<<22
    SBBO r8, r6, 0, 4
 
-LOOP:
+MAIN_LOOP:
     // Exit if the halt flag is set
     MOV r6, DMX_HALT
     LBCO r2, CONST_PRUDRAM, r6, 1
@@ -75,8 +75,8 @@ LOOP:
     LBCO r5, CONST_PRUDRAM, r6, 1
 
 DMX_LOOP:
-//    QBEQ LOOP, r3.b0, 4
-    QBEQ LOOP, r3.b0, r5.b0
+//    QBEQ MAIN_LOOP, r3.b0, 4
+    QBEQ MAIN_LOOP, r3.b0, r5.b0
     LBCO r2, CONST_PRUDRAM, r3, 1
     MOV r1, 8
 
