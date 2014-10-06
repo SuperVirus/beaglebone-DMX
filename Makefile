@@ -1,12 +1,10 @@
 #CROSS_COMPILE?=arm-arago-linux-gnueabi-
 
-#include libprussdrv/Makefile
-
 LIBDIR?=lib
 INCDIR?=include
 BINDIR?=bin
 SRCDIR?=src
-PASM?=pasm/pasm
+PASM?=pasm
 
 CFLAGS+= -Wall -I$(INCDIR) -D__DEBUG -O2 -mtune=cortex-a8 -march=armv7-a
 LDFLAGS+=-L$(LIBDIR) -lprussdrv -lpthread
@@ -15,7 +13,7 @@ OBJDIR=obj
 TARGET=$(BINDIR)/dmx
 P_TARGET=$(BINDIR)/dmx.bin
 
-_DEPS = libprussdrv.a libprussdrvd.a
+_DEPS = 
 DEPS = $(patsubst %,$(LIBDIR)/%,$(_DEPS))
 
 _OBJ = dmx.o
