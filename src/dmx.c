@@ -181,10 +181,11 @@ static void LOCAL_unexport_pin (int pin) {
 // From http://www.abc.se/~m6695/udp.html
 static void LOCAL_udp_listen () {
 	struct sockaddr_in si_me, si_other;
-	int s, i, idx, slen=sizeof(si_other);
+	socklen_t slen=sizeof(si_other);
+	int s, i, idx;
 	char buf[UDP_BUFLEN];
 	int channel, channels, value;
-	int packet_length;
+	ssize_t packet_length;
 
 	if ((s=socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP))==-1)
 		diep("socket");
@@ -193,7 +194,7 @@ static void LOCAL_udp_listen () {
 	si_me.sin_family = AF_INET;
 	si_me.sin_port = htons(UDP_PORT);
 	si_me.sin_addr.s_addr = htonl(INADDR_ANY);
-	if (bind(s, &si_me, sizeof(si_me))==-1)
+	if (bind(s, (struct sockaddr *) &si_me, sizeof(si_me))==-1)
 		diep("bind");
 
 	for (i=0; i<UDP_BUFLEN; i++) {
@@ -201,7 +202,7 @@ static void LOCAL_udp_listen () {
 	}
 
 	while (1) {
-		packet_length = recvfrom(s, buf, UDP_BUFLEN, 0, &si_other, &slen);
+		packet_length = recvfrom(s, buf, UDP_BUFLEN, 0, (struct sockaddr *) &si_other, &slen);
 		if (packet_length == -1) {
 			diep("recvfrom()");
 		}
